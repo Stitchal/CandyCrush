@@ -1,4 +1,5 @@
 import Grille from "./grille.js";
+import { actualiserTemps } from "./utils.js";
 
 // 1 On définit une sorte de "programme principal"
 // le point d'entrée du code qui sera appelée dès que la
@@ -15,4 +16,5 @@ function init() {
 
   grille = new Grille(9, 9);
   grille.showCookies();
+  actualiserTemps();
 }

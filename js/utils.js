@@ -1,4 +1,4 @@
-export { create2DArray };
+export { create2DArray, actualiserTemps };
 
 /** En JavaScript on ne peut pas déclarer directement de tableau à n dimensions
    en précisant toutes les dimensions. tab [4][4] n'est pas possible par exemple.
@@ -14,4 +14,24 @@ function create2DArray(rows) {
   }
 
   return arr;
+}
+
+function actualiserTemps() {
+  //increase time every seconds
+  let temps = document.getElementById("temps");
+  let s = 0;
+  let m = 0;
+  let h = 0;
+  let timer = setInterval(function () {
+    s++;
+    if (s === 60) {
+      s = 0;
+      m++;
+    }
+    if (m === 60) {
+      m = 0;
+      h++;
+    }
+    temps.innerHTML = `${m < 10 ? "0" + m : m}:${s < 10 ? "0" + s : s}`;
+  }, 1000);
 }

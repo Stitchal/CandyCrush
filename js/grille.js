@@ -94,7 +94,7 @@ export default class Grille {
         let c2 = this.tabcookies[img.dataset.ligne][img.dataset.colonne];
         Cookie.swapCookies(c1, c2);
         //on met à jour la grille
-        this.showCookies();
+        // this.showCookies();
       }
 
       img.ondragover = (event) => {
@@ -103,6 +103,9 @@ export default class Grille {
 
 
     });
+
+
+    this.updateCookies();
 
     const montrerMatchsCookies = document.getElementById('montrerCookiesMatchs')
     montrerMatchsCookies.addEventListener('click', () => {
@@ -122,8 +125,11 @@ export default class Grille {
         //     this.showCookies();
         //   }
         // }, 1000);
-        this.chuteColonnes();
-        this.showCookies();
+        if (aEteVidee) {
+          this.chuteColonnes();
+          this.showCookies();
+          console.log("fall and refill");
+        }
       }, 2000);
 
     });
@@ -165,6 +171,7 @@ export default class Grille {
           matchedCookies = [this.tabcookies[i][j]];
         }
         if (matchedCookies.length >= 3) {
+          this.addScore(matchedCookies.length - 2)
           for (let cookie of matchedCookies) {
             cookie.matched = true;
           }
@@ -198,36 +205,6 @@ export default class Grille {
     }
   }
 
-  handleFallsAndRefill() {
-    let hasFalls = false;
-
-    // Loop over each column
-    for (let c = 0; c < this.tabcookies[0].length; c++) {
-      // Loop over each row from bottom to top
-      for (let l = this.tabcookies.length - 1; l >= 0; l--) {
-        if (this.tabcookies[l][c] === null) {
-          hasFalls = true;
-
-          // Move cookies down
-          for (let aboveRow = l - 1; aboveRow >= 0; aboveRow--) {
-            this.tabcookies[aboveRow + 1][c] = this.tabcookies[aboveRow][c];
-          }
-
-          // // Insert new cookie at the top
-          const type = Math.floor(Math.random() * 6);
-          // //console.log(type)
-          // tab[l][c] = new Cookie(type, l, c);
-          this.tabcookies[0][c] = new Cookie(type, l, c);
-        }
-      }
-    }
-
-    // If any falls were handled, repeat the process
-    if (hasFalls) {
-      this.handleFallsAndRefill();
-    }
-  }
-
   chuteColonnes() {
     let estTombee = false;
     for (let c = 0; c < this.c; c++) {
@@ -238,6 +215,7 @@ export default class Grille {
     if (estTombee) {
       this.chuteColonnes();
     }
+    return estTombee;
   }
 
   chuteColonne(c) {
@@ -246,39 +224,33 @@ export default class Grille {
       if (this.tabcookies[l][c] === null) {
 
         // Move cookies down
-        for (let aboveRow = l - 1; aboveRow >= 0; aboveRow--) {
-          this.tabcookies[aboveRow + 1][c] = this.tabcookies[aboveRow][c];
+        for (let ligneEnBas = l - 1; ligneEnBas >= 0; ligneEnBas--) {
+          this.tabcookies[ligneEnBas + 1][c] = this.tabcookies[ligneEnBas][c];
         }
         estTombee = true;
         this.remplaceCookie(l, c);
-
-        // // // Insert new cookie at the top
-        // const type = Math.floor(Math.random() * 6);
-        // // //console.log(type)
-        // // tab[l][c] = new Cookie(type, l, c);
-        // this.tabcookies[0][c] = new Cookie(type, l, c);
       }
     }
     return estTombee;
   }
 
   remplaceCookie(l, c) {
-    // for (let i = indexDebut; i >= 0; i--) {
-    //   if (this.tabcookies[i][c] !== null) {
-    //     this.tabcookies[indexFin][c] = this.tabcookies[i][c];
-    //     indexFin--;
-    //   }
-    // }
-    // for (let i = indexFin; i >= 0; i--) {
-    //   const type = Math.floor(Math.random() * 6);
-    //   this.tabcookies[i][c] = new Cookie(type, i, c);
-    // }
-
-    // // Insert new cookie at the top
-    const type = Math.floor(Math.random() * 6);
-    // //console.log(type)
-    // tab[l][c] = new Cookie(type, l, c);
+    const type = Math.floor(Math.random() * 6); // 6 types de cookies
     this.tabcookies[0][c] = new Cookie(type, l, c);
+  }
+
+  updateCookies() {
+    for (let l = 0; l < this.tabcookies.length; l++) {
+      for (let c = 0; c < this.tabcookies[l].length; c++) {
+        const cookie = this.tabcookies[l][c];
+        if (cookie) {
+          cookie.ligne = l;
+          cookie.colonne = c;
+          cookie.htmlImage.dataset.ligne = l;
+          cookie.htmlImage.dataset.colonne = c;
+        }
+      }
+    }
   }
 
 
@@ -319,5 +291,10 @@ export default class Grille {
     }
 
     return tab;
+  }
+
+  addScore(pointsDeScore) {
+    let score = document.getElementById("score");
+    score.innerHTML = parseInt(score.innerHTML) + pointsDeScore;
   }
 }
