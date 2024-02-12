@@ -21,8 +21,7 @@ function actualiserTemps() {
   let temps = document.getElementById("temps");
   let s = 0;
   let m = 0;
-  let h = 0;
-  let timer = setInterval(function () {
+  setInterval(function () {
     s++;
     if (s === 60) {
       s = 0;
@@ -30,7 +29,6 @@ function actualiserTemps() {
     }
     if (m === 60) {
       m = 0;
-      h++;
     }
     temps.innerHTML = `${m < 10 ? "0" + m : m}:${s < 10 ? "0" + s : s}`;
   }, 1000);

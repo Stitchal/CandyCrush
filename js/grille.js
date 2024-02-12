@@ -49,7 +49,6 @@ export default class Grille {
 
       img.onclick = (event) => {
         console.log("On a cliqué sur la ligne " + ligne + " et la colonne " + colonne);
-        //let cookieCliquee = this.getCookieFromLC(ligne, colonne);
         console.log("Le cookie cliqué est de type " + cookie.type);
         // highlight + changer classe CSS
         cookie.selectionnee();
@@ -66,9 +65,6 @@ export default class Grille {
         console.log(cookie)
       }
 
-      // A FAIRE : ecouteur de drag'n'drop
-
-      // on affiche l'image dans le div pour la faire apparaitre à l'écran.
       div.appendChild(img);
 
       img.draggable = true;
@@ -93,8 +89,6 @@ export default class Grille {
         let c1 = this.tabcookies[ligne][colonne];
         let c2 = this.tabcookies[img.dataset.ligne][img.dataset.colonne];
         Cookie.swapCookies(c1, c2);
-        //on met à jour la grille
-        // this.showCookies();
       }
 
       img.ondragover = (event) => {
@@ -113,22 +107,12 @@ export default class Grille {
       this.detecterMatch3Lignes();
       this.detecterMatch3Colonnes();
       this.montrerMatchsDeCookies();
-      //wait 2s
       let aEteVidee = false;
       setTimeout(() => {
-        // this.hideCookiesToBeRemoved();
         aEteVidee = this.vider();
-        // setTimeout(() => {
-        //   if (aEteVidee) {
-        //     this.handleFallsAndRefill();
-        //     console.log("fall and refill");
-        //     this.showCookies();
-        //   }
-        // }, 1000);
         if (aEteVidee) {
           this.chuteColonnes();
           this.showCookies();
-          console.log("fall and refill");
         }
       }, 2000);
 
@@ -157,7 +141,11 @@ export default class Grille {
             cookie.matched = true;
           }
         }
+        if (matchedCookies.length >= 3) {
+          this.addScore(matchedCookies.length - 2);
+        }
       }
+
     }
   }
 
@@ -171,12 +159,15 @@ export default class Grille {
           matchedCookies = [this.tabcookies[i][j]];
         }
         if (matchedCookies.length >= 3) {
-          this.addScore(matchedCookies.length - 2)
           for (let cookie of matchedCookies) {
             cookie.matched = true;
           }
         }
+        if (matchedCookies.length >= 3) {
+          this.addScore(matchedCookies.length - 2);
+        }
       }
+
     }
   }
 
@@ -199,7 +190,7 @@ export default class Grille {
     for (let row of this.tabcookies) {
       for (let cookie of row) {
         if (cookie.matched) {
-          cookie.selectionnee(); // Call the 'selectionnee' method of the Cookie class
+          cookie.selectionnee();
         }
       }
     }
