@@ -2,24 +2,42 @@
     background-image: url("../assets/images/Background@2x.png");
     border: 4px solid rgba(100, 100, 100);
     width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #cacaca;
 }
 
 #infos {
+    padding: 10px;
     width: 800px;
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 #infos div {
     /* https://css-tricks.com/almanac/properties/j/justify-content/ */
     font-size: 40px;
     color: rgb(133, 47, 47);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #999;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 200px;
+    height: 100px;
+    box-shadow: 0 0 10px #999;
+    transition: 0.3s all;
 }
 
 #grille {
+    border-radius: 10px;
     width: 800px;
     height: 720px;
-    background-color: rgba(100, 100, 100, 0.5);
+    background-color: rgba(121, 179, 255, 0.5);
     border: 1px;
     border: 1px solid #999;
 
@@ -32,8 +50,9 @@
 }
 
 #grille div {
-    border: 2px solid rgba(100, 100, 100, 0.5);
+    /* border: 2px solid rgba(100, 100, 100, 0.5); */
     transition: 0.5s all;
+    border-radius: 10px;
 }
 
 #grille div:hover {
@@ -50,16 +69,20 @@
 
 .cookies {
     filter: drop-shadow(2px 2px 2px #222);
+    transition: 0.3s all;
 }
 
 .cookies:hover {
     transform: scale(1.2, 1.2);
     filter: drop-shadow(4px 4px 4px #222);
+    transition: 0.3s all;
+
 }
 
 .cookies-selected {
     transform: scale(1.2, 1.2);
     filter: drop-shadow(4px 4px 4px #222);
+    transition: 0.3s all;
 
 }
 
@@ -78,4 +101,42 @@
 
 .cookie-fall {
     transition: top 0.5s;
+}
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+    background-color: #afd3fc;
+}
+
+button#montrerCookiesMatchs {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 20px;
+    background-color: #4ca4ec;
+    color: white;
+    box-shadow: 0 0 10px #4ca4ec;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s all;
+
+    &:hover {
+        background-color: #2e80c4;
+        box-shadow: 0 0 10px #4ca4ec;
+        scale: 1.1;
+    }
 }
